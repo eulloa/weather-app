@@ -1,13 +1,14 @@
 import React from 'react';
 
 //components
-import WeatherDiplay from './WeatherDisplay';
+import WeatherDisplay from './WeatherDisplay';
 import Input from './input';
 
 //deps
 import axios from 'axios';
+import WeatherAuxiliary from '../weatherAuxiliary';
 
-//transitions
+//animation
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const apiKey = '87ad902d24be999eed791156678a3ec7';
@@ -39,35 +40,35 @@ class App extends React.Component {
         return (
 			<section>
 				<Input initialInputValue={this.state.submitValue} onClick={this.handleOnClick} onChange={this.handleOnChange} onKeyPress={this.handleKeyPress} />
-				<section className="weatherWidget">
-					<div className="mainSection">
-						<WeatherDiplay>
-							<h3>Weather Display!</h3>
-						</WeatherDiplay>
-						{/* <div className="forecastContainer">
-							{props.weather.map((data, i) => {
-								return <WeatherDisplay
-									key={i}
-									onClick={props.handleUpdateMainSection}
-									onClickTemperature={props.handleClickTemperature}
-									imgSrc={WeatherAuxiliary.getWeatherImage(data.weather[0].icon)}
-									weatherDescription={data.weather[0].description}
-									dayOfWeek={WeatherAuxiliary.getDayOfWeek(data.dt, false)}
-									fullDayOfWeek={WeatherAuxiliary.getDayOfWeek(data.dt, true)}
-									city={props.city}
-									timeInfo={WeatherAuxiliary.getDayAndTime()}
-									tempFahrenheit={Math.round(WeatherAuxiliary.kelvinToF(data.temp.max))}
-									tempCelcius={Math.round(WeatherAuxiliary.kelvinToC(data.temp.max))}
-									shouldHideF={props.shouldHideF}
-									shouldHideC={props.shouldHideC}
-									tempFahrenheightHigh={Math.round(WeatherAuxiliary.kelvinToF(data.temp.max))}
-									tempFahrenheightLow={Math.round(WeatherAuxiliary.kelvinToF(data.temp.min))}
-									tempCelciusHigh={Math.round(WeatherAuxiliary.kelvinToC(data.temp.max))}
-									tempCelciusLow={Math.round(WeatherAuxiliary.kelvinToC(data.temp.max))} />
-							})}
-						</div> */}
-					</div>
-				</section>
+				{
+					this.state.isQuerySubmitted && this.state.weather.length && (
+						<ReactCSSTransitionGroup 
+							transitionName="anim" 
+							transitionAppear={true} 
+							transitionAppearTimeout={500}
+							transitionEnter={false}
+							transitionLeave={false}>
+							<section className="weatherWidget">
+								<div className="mainSection">
+									<WeatherDisplay>
+										<h1>{this.state.city}</h1>
+										<h2>{WeatherAuxiliary.getDayAndTime()}</h2>
+										<h3>{this.state.weather[0].weather[0].description}</h3>
+										<section>
+											<img src={WeatherAuxiliary.getWeatherImage(this.state.weather[0].weather[0].icon)} alt={this.state.weather[0].weather[0].description} />
+											<div>
+												<span className={this.state.shouldHideF ? 'hidden' : ''}>{WeatherAuxiliary.kelvinToF(this.state.weather[0].temp.max)}</span>
+												<span className={this.state.shouldHideC ? 'hidden' : ''}>{WeatherAuxiliary.kelvinToC(this.state.weather[0].temp.max)}</span>
+												<button className={this.state.shouldHideF ? '' : 'inactive'} onClick={this.handleClickTemperature}>F</button>
+												<button className={this.state.shouldHideC ? '' : 'inactive'} onClick={this.handleClickTemperature}>C</button>
+											</div>
+										</section>
+									</WeatherDisplay>
+								</div>
+							</section>
+						</ReactCSSTransitionGroup>
+					)
+				}
 			</section>
         )
     }
@@ -122,7 +123,7 @@ class App extends React.Component {
 	downloadWeather(city, apiKey) {
 		axios.get('http://api.openweathermap.org/data/2.5/forecast/daily?q=' + city + '&APPID=' + apiKey)
 			.then((res) => {
-				console.log(res)
+				console.log(res.data.list.slice(0, 5))
 				this.setState({
 					city: res.data.city.name,
 					weather: res.data.list.slice(0, 5)

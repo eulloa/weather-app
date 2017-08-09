@@ -3,23 +3,23 @@ const WeatherAuxiliary = {
 	getWeatherImage(conditions) {
 		switch(conditions) {
 			case '01d':
-				return 'sunny.png';
+				return '/assets/img/sunny.png';
 			case '01n':
-				return 'clear.png';
+				return '/assets/img/clear.png';
 			case '02d':
-				return 'partly-cloudy.png';
+				return '/assets/img/partly-cloudy.png';
 			case '03d':
-				return 'cloudy.png';
+				return '/assets/img/cloudy.png';
 			case '09d':
-				return 'rain.png';
+				return '/assets/img/rain.png';
 			case '10d':
-				return 'drizzle.png';
+				return '/assets/img/drizzle.png';
 			case '11d':
-				return 'thunderstorms.png';
+				return '/assets/img/thunderstorms.png';
 			case '50d':
-				return 'smoke.png';	
+				return '/assets/img/smoke.png';	
 			default:
-				return 'sunny.png';
+				return '/assets/img/sunny.png';
 		}
 	},
 	
