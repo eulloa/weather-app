@@ -9,8 +9,18 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.(js)$/, use: 'babel-loader' },
-            { test: /\.css$/, use: ['style-loader', 'css-loader'] }
+            { 
+                test: /\.js$/, 
+                loader: 'babel-loader', 
+                exclude: /node_modules/, 
+                query: { 
+                    presets: ['env', 'react'],
+                    plugins: ['transform-class-properties']
+                 } 
+            },
+            { 
+                test: /\.css$/, loader: ['style-loader', 'css-loader'] 
+            }
         ]
     },
     plugins: [

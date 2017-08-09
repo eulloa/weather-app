@@ -1,4 +1,4 @@
-export default WeatherAuxiliary = {
+const WeatherAuxiliary = {
 	
 	getWeatherImage(conditions) {
 		switch(conditions) {
@@ -49,7 +49,7 @@ export default WeatherAuxiliary = {
 		return parseFloat(9/5 * (temp - 273) + 32).toFixed(2);
 	},
 	
-	static kelvinToC(temp) {
+	kelvinToC(temp) {
 		return parseFloat(temp - 273).toFixed(2);
 	},
 	
@@ -61,3 +61,5 @@ export default WeatherAuxiliary = {
 		return daysOfWeek[date.getDay()];
 	}
 }
+
+export default WeatherAuxiliary;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MainWeatherDisplayer(props) {
+const WeatherDisplay = (props) => {
 	return (
 		<div className="weatherDisplayer">
 			{props.children}
@@ -8,4 +8,4 @@ function MainWeatherDisplayer(props) {
 	);
 }
 
-export default MainWeatherDisplayer;
+export default WeatherDisplay;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Input(props) {
+const Input = (props) => {
 	const placeholderText = 'Enter city name, zip code, state or country...';
 
 	return (
