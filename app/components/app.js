@@ -18,7 +18,7 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			city: '',
-			childData: {},
+			updateData: {},
 			isQuerySubmitted: false,
 			submitValue: '',
 			shouldHideF: false,
@@ -41,13 +41,8 @@ class App extends React.Component {
 			<section>
 				<Input initialInputValue={this.state.submitValue} onClick={this.handleOnClick} onChange={this.handleOnChange} onKeyPress={this.handleKeyPress} />
 				{
-					this.state.isQuerySubmitted && this.state.weather.length && (
-						<ReactCSSTransitionGroup 
-							transitionName="anim" 
-							transitionAppear={true} 
-							transitionAppearTimeout={500}
-							transitionEnter={false}
-							transitionLeave={false}>
+					this.state.weather.length > 0 && (
+						<ReactCSSTransitionGroup transitionName="anim" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={false} transitionLeave={false}>
 							<section className="weatherWidget">
 								<div className="mainSection">
 									<WeatherDisplay>
@@ -57,14 +52,36 @@ class App extends React.Component {
 										<section>
 											<img src={WeatherAuxiliary.getWeatherImage(this.state.weather[0].weather[0].icon)} alt={this.state.weather[0].weather[0].description} />
 											<div>
-												<span className={this.state.shouldHideF ? 'hidden' : ''}>{WeatherAuxiliary.kelvinToF(this.state.weather[0].temp.max)}</span>
-												<span className={this.state.shouldHideC ? 'hidden' : ''}>{WeatherAuxiliary.kelvinToC(this.state.weather[0].temp.max)}</span>
+												<span className={this.state.shouldHideF ? 'hidden' : ''}>
+													{Math.round(WeatherAuxiliary.kelvinToF(this.state.weather[0].temp.max))}
+												</span>
+												<span className={this.state.shouldHideC ? 'hidden' : ''}>
+													{Math.round(WeatherAuxiliary.kelvinToC(this.state.weather[0].temp.max))}
+												</span>
 												<button className={this.state.shouldHideF ? '' : 'inactive'} onClick={this.handleClickTemperature}>F</button>
 												<button className={this.state.shouldHideC ? '' : 'inactive'} onClick={this.handleClickTemperature}>C</button>
 											</div>
 										</section>
 									</WeatherDisplay>
 								</div>
+								<div className="forecastContainer">
+								{this.state.weather.map((data, i) => {
+									return <WeatherDisplay key={i}>
+												<div className="weatherDisplayer" onClick={() => {this.handleUpdateMainSection(data)}}>
+													<h1>{WeatherAuxiliary.getDayOfWeek(data.dt, false)}</h1>
+													<section>
+														<img src={WeatherAuxiliary.getWeatherImage(data.weather[0].icon)} alt={data.weather[0].description} />
+														<span className={this.state.shouldHideF ? 'hidden' : ''}>
+															{Math.round(WeatherAuxiliary.kelvinToF(data.temp.max)) + ' ' + Math.round(WeatherAuxiliary.kelvinToF(data.temp.min))}
+														</span>
+														<span className={this.state.shouldHideC ? 'hidden' : ''}>
+															{Math.round(WeatherAuxiliary.kelvinToC(data.temp.max)) + ' ' + Math.round(WeatherAuxiliary.kelvinToC(data.temp.max))}
+														</span>
+													</section>
+												</div>
+											</WeatherDisplay>
+								})}
+							</div>
 							</section>
 						</ReactCSSTransitionGroup>
 					)
@@ -76,7 +93,7 @@ class App extends React.Component {
 	handleUpdateMainSection = (data) => {
 		this.setState({
 			shouldUpdateMainDisplay: true,
-			childData: data
+			updateData: data
 		});
 	}
 	
