@@ -355,3 +355,22 @@ transition, .btnBack, .weatherWidget {
   -moz-transition: all .3s;
   -webkit-transition: all .3s;
   transition: all .3s; }
+
+  @media (max-width: 30em) /* 480px */ {
+    .mainSection .weatherDisplayer {
+      border-bottom: 0;
+    }
+
+    .forecastContainer {
+      display: block;
+    }
+
+    .forecastContainer .weatherDisplayer {
+      border-right: 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .forecastContainer .weatherDisplayer:last-child {
+      border-bottom: 0;
+    }
+  }
