@@ -356,7 +356,7 @@ transition, .btnBack, .weatherWidget {
   -webkit-transition: all .3s;
   transition: all .3s; }
 
-  @media (max-width: 20em) /* 320px */ {
+  @media (max-width: 30em) /* 480px */ {
     .weatherWidget {
       width: 100%;
     }
