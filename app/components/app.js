@@ -62,7 +62,7 @@ class App extends React.Component {
 											}
 										</h3>
 										<section>
-											<img src={"http://openweathermap.org/img/w/" + this.state.weather[0].weather[0].icon + ".png"} alt={this.state.weather[0].weather[0].description} />
+											<img src={this.state.shouldUpdateMainDisplay ? WeatherAuxiliary.getWeatherIcon(this.state.updateData.weather[0].icon) : WeatherAuxiliary.getWeatherIcon(this.state.weather[0].weather[0].icon)} alt={this.state.weather[0].weather[0].description} />
 											<div>
 												<span className={this.state.shouldHideF ? 'hidden' : ''}>
 													{
@@ -90,7 +90,7 @@ class App extends React.Component {
 													<div onClick={() => {this.handleUpdateMainSection(data)}}>
 														<h1>{WeatherAuxiliary.getDayOfWeek(data.dt, false)}</h1>
 														<section>
-															<img src={"http://openweathermap.org/img/w/" + data.weather[0].icon + ".png"} alt={data.weather[0].description} />
+															<img src={WeatherAuxiliary.getWeatherIcon(data.weather[0].icon)} alt={data.weather[0].description} />
 															<span className={this.state.shouldHideF ? 'hidden' : ''}>
 																{Math.round(WeatherAuxiliary.kelvinToF(data.temp.max)) + ' ' + Math.round(WeatherAuxiliary.kelvinToF(data.temp.min))}
 															</span>

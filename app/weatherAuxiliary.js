@@ -1,4 +1,8 @@
 const WeatherAuxiliary = {
+
+	getWeatherIcon(icon) {
+		return "http://openweathermap.org/img/w/" + icon + ".png";
+	},
 	
 	getDayAndTime() {
 		let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
