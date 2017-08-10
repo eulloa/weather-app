@@ -1,7 +1,7 @@
 ## weather-app
 A simple React application that uses data fetched from [Open Weather Map](http://openweathermap.org/) to build the UI and bundles the project with [Webpack](https://webpack.js.org/).
 
-##Available Scripts
+## Available Scripts
 The following scripts are available to be run at the root of the project directory.
 
 **Prior to running the project locally, make sure to install all project dependencies by running `npm install` at the project root.**
