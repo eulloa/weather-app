@@ -1,28 +1,5 @@
 const WeatherAuxiliary = {
 	
-	getWeatherImage(conditions) {
-		switch(conditions) {
-			case '01d':
-				return '/assets/img/sunny.png';
-			case '01n':
-				return '/assets/img/clear.png';
-			case '02d':
-				return '/assets/img/partly-cloudy.png';
-			case '03d':
-				return '/assets/img/cloudy.png';
-			case '09d':
-				return '/assets/img/rain.png';
-			case '10d':
-				return '/assets/img/drizzle.png';
-			case '11d':
-				return '/assets/img/thunderstorms.png';
-			case '50d':
-				return '/assets/img/smoke.png';	
-			default:
-				return '/assets/img/sunny.png';
-		}
-	},
-	
 	getDayAndTime() {
 		let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 		let d = new Date(),
