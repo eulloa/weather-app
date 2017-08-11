@@ -11,7 +11,7 @@ import WeatherAuxiliary from '../weatherAuxiliary';
 //animation
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-const apiKey = '87ad902d24be999eed791156678a3ec7';
+const apiKey = APP_CONFIG.apiKey;
 
 class App extends React.Component {
 	constructor(props) {
