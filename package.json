@@ -25,6 +25,7 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.4",
     "extended-define-webpack-plugin": "^0.1.3",
+    "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
     "prop-types": "^15.5.10",
     "style-loader": "^0.18.2",

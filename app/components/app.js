@@ -3,6 +3,7 @@ import React from 'react';
 //components
 import WeatherDisplay from './WeatherDisplay';
 import Input from './input';
+import Spinner from './spinner';
 
 //deps
 import axios from 'axios';
@@ -18,6 +19,7 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			city: '',
+			loading: false,
 			updateData: {},
 			isQuerySubmitted: false,
 			submitValue: '',
@@ -40,6 +42,7 @@ class App extends React.Component {
         return (
 			<section className="weatherWidget">
 				<Input initialInputValue={this.state.submitValue} onClick={this.handleOnClick} onChange={this.handleOnChange} onKeyPress={this.handleKeyPress} />
+				{ this.state.loading && <Spinner /> }
 				{
 					this.state.weather.length > 0 && (
 						<ReactCSSTransitionGroup transitionName="anim" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={false} transitionLeave={false}>
@@ -127,7 +130,8 @@ class App extends React.Component {
 		
 		this.setState({
 			submitValue: '',
-			isQuerySubmitted: true
+			isQuerySubmitted: true,
+			loading: true
 		});
 	}
 	
@@ -162,7 +166,8 @@ class App extends React.Component {
 			.then((res) => {
 				this.setState({
 					city: res.data.city.name,
-					weather: res.data.list.slice(0, 5)
+					weather: res.data.list.slice(0, 5),
+					loading: false
 				})
 			}).catch((e) => {
 				console.log(e)

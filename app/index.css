@@ -241,6 +241,7 @@ input {
 .weatherWidget {
   max-width: 750px;
   margin: 1em auto 0 auto;
+  position: relative;
    }
 
 .forecast {
@@ -348,6 +349,18 @@ svg {
   left: 0;
   width: 3em;
   height: 3em; }
+
+  .spinner {
+    position: absolute;
+    margin: 0 0 2em;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto 1em;
+    display: inline-block;
+    vertical-align: top;
+  }
 
 transition, .btnBack, .weatherWidget {
   -o-transition: all .3s;
