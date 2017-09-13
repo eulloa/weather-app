@@ -1,4 +1,4 @@
-## weather-app
+## React Weather App
 A simple React application that uses data fetched from [Open Weather Map](http://openweathermap.org/) to build the UI and bundles the project with [Webpack](https://webpack.js.org/).
 
 ## Available Scripts
@@ -11,3 +11,6 @@ Uses Webpack's [webpack-dev-server](https://webpack.js.org/configuration/dev-ser
 
 `npm run build`
 Creates an optimized build of the project with Webpack, per the configuration options in the project's webpack.config.js file.
+
+## Project URL
+[React Weather App](http://react-my-weather-app.surge.sh/)
