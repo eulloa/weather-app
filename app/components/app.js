@@ -1,13 +1,13 @@
 import React from 'react';
 
 //components
-import WeatherDisplay from './WeatherDisplay';
+import WeatherDisplayMain from './weatherDisplayMain';
+import WeatherDisplayForecast from './weatherDisplayForecast'
 import Input from './input';
 import Spinner from './spinner';
 
 //deps
 import axios from 'axios';
-import WeatherAuxiliary from '../weatherAuxiliary';
 
 //animation
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -19,23 +19,15 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			city: '',
-			loading: false,
-			updateData: {},
 			isQuerySubmitted: false,
-			submitValue: '',
+			loading: false,
 			shouldHideF: false,
 			shouldHideC: true,
 			shouldUpdateMainDisplay: false,
+			submitValue: '',
+			updateData: {},
 			weather: []
 		};
-
-		this.handleUpdateMainSection = this.handleUpdateMainSection.bind(this)
-		this.handleOnClick = this.handleOnClick.bind(this)
-		this.handleOnChange = this.handleOnChange.bind(this)
-		this.handleGoBack = this.handleGoBack.bind(this)
-		this.handleClickTemperature = this.handleClickTemperature.bind(this)
-		this.handleKeyPress = this.handleKeyPress.bind(this)
-		this.downloadWeather = this.downloadWeather.bind(this)
 	}
 	
 	render() {
@@ -47,71 +39,28 @@ class App extends React.Component {
 					this.state.weather.length > 0 && (
 						<ReactCSSTransitionGroup transitionName="anim" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={false} transitionLeave={false}>
 							<section className="forecast">
-								<div className="mainSection">
-									<WeatherDisplay>
-										<h1>{this.state.city}</h1>
-										<h2>
-											{
-												this.state.shouldUpdateMainDisplay ?
-												WeatherAuxiliary.getDayOfWeek(this.state.updateData.dt, true) :
-												WeatherAuxiliary.getDayAndTime()
-											}
-										</h2>
-										<h3>
-											{
-												this.state.shouldUpdateMainDisplay ? 
-												this.state.updateData.weather[0].description :
-												this.state.weather[0].weather[0].description
-											}
-										</h3>
-										<section>
-											<img src={this.state.shouldUpdateMainDisplay ? WeatherAuxiliary.getWeatherIcon(this.state.updateData.weather[0].icon) : WeatherAuxiliary.getWeatherIcon(this.state.weather[0].weather[0].icon)} alt={this.state.weather[0].weather[0].description} />
-											<div>
-												<span className={this.state.shouldHideF ? 'hidden' : ''}>
-													{
-														this.state.shouldUpdateMainDisplay ?
-														Math.round(WeatherAuxiliary.kelvinToF(this.state.updateData.temp.max)) :
-														Math.round(WeatherAuxiliary.kelvinToF(this.state.weather[0].temp.max))
-													}
-												</span>
-												<span className={this.state.shouldHideC ? 'hidden' : ''}>
-													{
-														this.state.shouldUpdateMainDisplay ?
-														Math.round(WeatherAuxiliary.kelvinToC(this.state.updateData.temp.max)) :
-														Math.round(WeatherAuxiliary.kelvinToC(this.state.weather[0].temp.max))
-													}
-												</span>
-												<button className={this.state.shouldHideF ? '' : 'inactive'} onClick={this.handleClickTemperature}>F</button>
-												<button className={this.state.shouldHideC ? '' : 'inactive'} onClick={this.handleClickTemperature}>C</button>
-											</div>
-										</section>
-									</WeatherDisplay>
-								</div>
-								<div className="forecastContainer">
-									{this.state.weather.map((data, i) => {
-										return <WeatherDisplay key={i}>
-													<div onClick={() => {this.handleUpdateMainSection(data)}}>
-														<h1>{WeatherAuxiliary.getDayOfWeek(data.dt, false)}</h1>
-														<section>
-															<img src={WeatherAuxiliary.getWeatherIcon(data.weather[0].icon)} alt={data.weather[0].description} />
-															<span className={this.state.shouldHideF ? 'hidden' : ''}>
-																{Math.round(WeatherAuxiliary.kelvinToF(data.temp.max)) + ' ' + Math.round(WeatherAuxiliary.kelvinToF(data.temp.min))}
-															</span>
-															<span className={this.state.shouldHideC ? 'hidden' : ''}>
-																{Math.round(WeatherAuxiliary.kelvinToC(data.temp.max)) + ' ' + Math.round(WeatherAuxiliary.kelvinToC(data.temp.min))}
-															</span>
-														</section>
-													</div>
-												</WeatherDisplay>
-									})}
-								</div>
+								<WeatherDisplayMain
+									city={this.state.city}
+									onClick={this.handleClickTemperature}
+									shouldHideC={this.state.shouldHideC}
+									shouldHideF={this.state.shouldHideF}
+									shouldUpdateMainDisplay={this.state.shouldUpdateMainDisplay}
+									updateData={this.state.updateData}
+									weather={this.state.weather}
+								/>
+								<WeatherDisplayForecast
+									onClick={this.handleUpdateMainSection}
+									shouldHideC={this.state.shouldHideC}
+									shouldHideF={this.state.shouldHideF}
+									weather={this.state.weather}
+								/>
 							</section>
 						</ReactCSSTransitionGroup>
 					)
 				}
 			</section>
         )
-    }
+	}
 	
 	handleUpdateMainSection = (data) => {
 		this.setState({
@@ -162,16 +111,17 @@ class App extends React.Component {
 	}
 		
 	downloadWeather(city, apiKey) {
-		axios.get('http://api.openweathermap.org/data/2.5/forecast/daily?q=' + city + '&APPID=' + apiKey)
+		axios.get(`http://api.openweathermap.org/data/2.5/forecast/daily?q=${city}&APPID=${apiKey}`)
 			.then((res) => {
 				this.setState({
 					city: res.data.city.name,
 					weather: res.data.list.slice(0, 5),
 					loading: false
 				})
-			}).catch((e) => {
-				console.log(e)
 			})
+			.catch((e) => {
+				console.log(e)
+			});
 	}
 }
 
