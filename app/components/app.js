@@ -5,6 +5,7 @@ import WeatherDisplayMain from './weatherDisplayMain';
 import WeatherDisplayForecast from './weatherDisplayForecast'
 import Input from './input';
 import Spinner from './spinner';
+import Error from './error';
 
 //deps
 import axios from 'axios';
@@ -15,26 +16,26 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 const apiKey = APP_CONFIG.apiKey;
 
 class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			city: '',
-			isQuerySubmitted: false,
-			loading: false,
-			shouldHideF: false,
-			shouldHideC: true,
-			shouldUpdateMainDisplay: false,
-			submitValue: '',
-			updateData: {},
-			weather: []
-		};
-	}
+	state = {
+		city: '',
+		hasError: false,
+		errorText: '',
+		isQuerySubmitted: false,
+		loading: false,
+		shouldHideF: false,
+		shouldHideC: true,
+		shouldUpdateMainDisplay: false,
+		submitValue: '',
+		updateData: {},
+		weather: []
+	};
 	
 	render() {
         return (
 			<section className="weatherWidget">
 				<Input initialInputValue={this.state.submitValue} onClick={this.handleOnClick} onChange={this.handleOnChange} onKeyPress={this.handleKeyPress} />
 				{ this.state.loading && <Spinner /> }
+				{ this.state.hasError && <Error text={this.state.errorText} /> }
 				{
 					this.state.weather.length > 0 && (
 						<ReactCSSTransitionGroup transitionName="anim" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={false} transitionLeave={false}>
@@ -73,7 +74,11 @@ class App extends React.Component {
 		if (this.state.submitValue) {
 			this.downloadWeather(this.state.submitValue, apiKey);
 		} else {
-			alert('empty!');
+			this.setState({
+				hasError: true,
+				errorText: 'Please enter a city name, zip code, state or country!',
+				weather: []
+			})
 			return;
 		}
 		
@@ -115,12 +120,19 @@ class App extends React.Component {
 			.then((res) => {
 				this.setState({
 					city: res.data.city.name,
+					errorText: '',
+					hasError: false,
+					loading: false,
 					weather: res.data.list.slice(0, 5),
-					loading: false
 				})
 			})
 			.catch((e) => {
-				console.log(e)
+				this.setState({
+					errorText: 'Error retrieving data, please try again!',
+					hasError: true,
+					loading: false,
+					weather: []
+				})
 			});
 	}
 }

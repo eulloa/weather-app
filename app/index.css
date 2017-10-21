@@ -362,6 +362,14 @@ svg {
     vertical-align: top;
   }
 
+  /* ==========================================================================
+   error container
+   ========================================================================== */
+
+.errorContainer {
+  text-align: center;
+}
+
 transition, .btnBack, .weatherWidget {
   -o-transition: all .3s;
   -ms-transition: all .3s;
