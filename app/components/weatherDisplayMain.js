@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import WeatherAuxiliary from '../util/weatherAuxiliary';
 
 const WeatherDisplayMain = (props) => {
+	const { city, onClick, shouldHideC, shouldHideF, shouldUpdateMainDisplay, weather } = props;
+
 	return (
 		<div className="mainSection">
 			<div className="weatherDisplayer">
-				<h1>{props.city}</h1>
+				<h1>{city}</h1>
 				<h2>
 					{
 						props.shouldUpdateMainDisplay ?
@@ -16,30 +18,22 @@ const WeatherDisplayMain = (props) => {
 				</h2>
 				<h3>
 					{
-						props.shouldUpdateMainDisplay ? 
+						shouldUpdateMainDisplay ? 
 						props.updateData.weather[0].description :
-						props.weather[0].weather[0].description
+						weather[0].weather[0].description
 					}
 				</h3>
 				<section>
-					<img src={props.shouldUpdateMainDisplay ? WeatherAuxiliary.getWeatherIcon(props.updateData.weather[0].icon) : WeatherAuxiliary.getWeatherIcon(props.weather[0].weather[0].icon)} alt={props.weather[0].weather[0].description} />
+					<img src={shouldUpdateMainDisplay ? WeatherAuxiliary.getWeatherIcon(props.updateData.weather[0].icon) : WeatherAuxiliary.getWeatherIcon(weather[0].weather[0].icon)} alt={weather[0].weather[0].description} />
 					<div>
-						<span className={props.shouldHideF ? 'hidden' : ''}>
-							{
-								props.shouldUpdateMainDisplay ?
-								Math.round(WeatherAuxiliary.kelvinToF(props.updateData.temp.max)) :
-								Math.round(WeatherAuxiliary.kelvinToF(props.weather[0].temp.max))
-							}
+						<span className={shouldHideF ? 'hidden' : ''}>
+							{Math.round(WeatherAuxiliary.kelvinToF(weather[0].main.temp_max))}
 						</span>
-						<span className={props.shouldHideC ? 'hidden' : ''}>
-							{
-								props.shouldUpdateMainDisplay ?
-								Math.round(WeatherAuxiliary.kelvinToC(props.updateData.temp.max)) :
-								Math.round(WeatherAuxiliary.kelvinToC(props.weather[0].temp.max))
-							}
+						<span className={shouldHideC ? 'hidden' : ''}>
+							{Math.round(WeatherAuxiliary.kelvinToC(weather[0].main.temp_max))}
 						</span>
-						<button className={props.shouldHideF ? '' : 'inactive'} onClick={props.onClick}>F</button>
-						<button className={props.shouldHideC ? '' : 'inactive'} onClick={props.onClick}>C</button>
+						<button className={shouldHideF ? '' : 'inactive'} onClick={onClick}>F</button>
+						<button className={shouldHideC ? '' : 'inactive'} onClick={onClick}>C</button>
 					</div>
 				</section>
 			</div>
@@ -48,13 +42,13 @@ const WeatherDisplayMain = (props) => {
 }
 
 WeatherDisplayMain.propTypes = {
-	city: 						PropTypes.string.isRequired,
-	onClick: 					PropTypes.func.isRequired,
-	shouldHideC: 				PropTypes.bool.isRequired,
-	shouldHideF: 				PropTypes.bool.isRequired,
+	city: 							PropTypes.string.isRequired,
+	onClick: 						PropTypes.func.isRequired,
+	shouldHideC: 					PropTypes.bool.isRequired,
+	shouldHideF: 					PropTypes.bool.isRequired,
 	shouldUpdateMainDisplay: 	PropTypes.bool.isRequired,
-	updateData: 				PropTypes.object.isRequired,
-	weather: 					PropTypes.array.isRequired
+	updateData: 					PropTypes.object.isRequired,
+	weather: 						PropTypes.array.isRequired
 };
 
 export default WeatherDisplayMain;

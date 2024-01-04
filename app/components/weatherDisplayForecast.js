@@ -4,20 +4,22 @@ import PropTypes from 'prop-types';
 import WeatherAuxiliary from '../util/weatherAuxiliary';
 
 const WeatherDisplayForecast = props => {
+    const { onClick, shouldHideC, shouldHideF, weather } = props;
+
     return (
         <div className="forecastContainer">
             {
-                props.weather.map((data, i) => {
+                weather.map((data, i) => {
                     return (
-                        <div className="weatherDisplayer" key={i} onClick={() => props.onClick(data)}>
+                        <div className="weatherDisplayer" key={i} onClick={() => onClick(data)}>
                             <h1>{WeatherAuxiliary.getDayOfWeek(data.dt, false)}</h1>
                             <section>
                                 <img src={WeatherAuxiliary.getWeatherIcon(data.weather[0].icon)} alt={data.weather[0].description} />
-                                <span className={props.shouldHideF ? 'hidden' : ''}>
-                                    {Math.round(WeatherAuxiliary.kelvinToF(data.temp.max)) + ' ' + Math.round(WeatherAuxiliary.kelvinToF(data.temp.min))}
+                                <span className={shouldHideF ? 'hidden' : ''}>
+                                    {Math.round(WeatherAuxiliary.kelvinToF(data.main.temp_max)) + ' ' + Math.round(WeatherAuxiliary.kelvinToF(data.main.temp_min))}
                                 </span>
-                                <span className={props.shouldHideC ? 'hidden' : ''}>
-                                    {Math.round(WeatherAuxiliary.kelvinToC(data.temp.max)) + ' ' + Math.round(WeatherAuxiliary.kelvinToC(data.temp.min))}
+                                <span className={shouldHideC ? 'hidden' : ''}>
+                                    {Math.round(WeatherAuxiliary.kelvinToC(data.main.temp_max)) + ' ' + Math.round(WeatherAuxiliary.kelvinToC(data.main.temp_min))}
                                 </span>
                             </section>
                         </div>

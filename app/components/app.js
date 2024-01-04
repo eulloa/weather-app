@@ -5,7 +5,7 @@ import WeatherDisplayMain from './weatherDisplayMain';
 import WeatherDisplayForecast from './weatherDisplayForecast'
 import Input from './input';
 import Spinner from './spinner';
-import Error from './error';
+//import Error from './error';
 
 //deps
 import axios from 'axios';
@@ -13,7 +13,8 @@ import axios from 'axios';
 //animation
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-const apiKey = APP_CONFIG.apiKey;
+//const apiKey = APP_CONFIG.apiKey;
+const apiKey = '87ad902d24be999eed791156678a3ec7';
 
 class App extends React.Component {
 	state = {
@@ -34,10 +35,9 @@ class App extends React.Component {
         return (
 			<section className="weatherWidget">
 				<Input initialInputValue={this.state.submitValue} onClick={this.handleOnClick} onChange={this.handleOnChange} onKeyPress={this.handleKeyPress} />
-				{ this.state.loading && <Spinner /> }
-				{ this.state.hasError && <Error text={this.state.errorText} /> }
-				{
-					this.state.weather.length > 0 && (
+				{this.state.loading && <Spinner />}
+				{this.state.hasError && <Error text={this.state.errorText} />}
+				{this.state.weather.length > 0 && (
 						<ReactCSSTransitionGroup transitionName="anim" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={false} transitionLeave={false}>
 							<section className="forecast">
 								<WeatherDisplayMain
@@ -116,7 +116,7 @@ class App extends React.Component {
 	}
 		
 	downloadWeather(city, apiKey) {
-		axios.get(`http://api.openweathermap.org/data/2.5/forecast/daily?q=${city}&APPID=${apiKey}`)
+		axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=${apiKey}`)
 			.then((res) => {
 				this.setState({
 					city: res.data.city.name,
